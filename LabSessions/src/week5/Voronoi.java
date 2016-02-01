@@ -57,8 +57,8 @@ public class Voronoi {
     }
 
     public static void main(String[] args) {
-        int width = 200;
-        int height = 200;
+        int width = 300;
+        int height = 300;
         
         
         int nSites = (int) (Math.random()*200);
