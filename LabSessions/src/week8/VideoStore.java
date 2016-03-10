@@ -1,5 +1,7 @@
 package week8;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.ArrayList;
 
 public class VideoStore {
@@ -44,7 +46,14 @@ public class VideoStore {
 	}
 	
 	public boolean returnVideo(Video video) {
-		return video.returnToStore();
+		for (Video vid: inventory) {
+			if (vid == video) {
+				vid.returnToStore();
+				return true;
+			}
+		}
+		System.out.println("Sorry, this video did not come from this store");
+		return false;
 	}
 	
 	public void rateVideo(Video video, int rating) {
@@ -57,17 +66,17 @@ public class VideoStore {
 	
 	public Video[] getCheckedOut() {
 		int counter = 0;
+		int i = 0;
 		for (Video vid: inventory) {
 			if (vid.isCheckedOut()) {
-				counter +=1;
+				counter ++;
 			}
 		}
 		Video[] checkedOutVids = new Video[counter];
-		counter = 0;
 		for (Video vid: inventory) {
 			if (vid.isCheckedOut()) {
-				checkedOutVids[counter] = vid;
-				counter +=1;
+				checkedOutVids[i] = vid;
+				i++;
 			}
 		}
 		return checkedOutVids;
@@ -75,12 +84,24 @@ public class VideoStore {
 	
 	public Video mostPopular() {
 		double highestRating = 1;
-		Video highestVid = null;
+		Video highestVid = inventory.get(0);
 		for (Video vid: inventory) {
-			if (vid.getAverageRating() > highestRating) {
+			double rating = vid.getAverageRating();
+			if (rating > highestRating) {
 				highestVid = vid;
+				highestRating = rating;
 			}
 		}
 		return highestVid;
+	}
+	
+	public static void main(String[] args) {
+		VideoStore videoStore = new VideoStore();
+		
+		videoStore.addVideo("RED");
+        videoStore.addVideo("Presto");
+        videoStore.addVideo("Kiwi!");
+        videoStore.addVideo("Skhizein");
+        
 	}
 }
